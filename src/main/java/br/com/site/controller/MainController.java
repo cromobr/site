@@ -1,10 +1,15 @@
 package br.com.site.controller;
 
 
+import br.com.site.usuario.UseCaseUsuario;
+import br.com.site.usuario.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
- 
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class MainController {
  
@@ -15,7 +20,7 @@ public class MainController {
 	@RequestMapping(value="/", method= RequestMethod.GET)	
 	public String index(){	
  
-	    return "index";
+	    return "login";
 	}
 	
 	/***
@@ -23,9 +28,28 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value="/Login", method= RequestMethod.GET)	
-	public String login(){	
+	public String login(){
+
+
  
-	    return "index";
+	    return "login";
+	}
+
+	/***
+	 * ESSE MÉTODO CARREGA A PÁGINA(index.html) DE LOGIN DA NOSSA APLICAÇÃO
+	 * @return
+	 */
+	@RequestMapping(value="/Acesso", method= RequestMethod.POST)
+	public String acesso(HttpServletRequest req){
+
+		String login = req.getParameter("txtLogin");
+		String password = req.getParameter("txtPassword");
+
+		if(UseCaseUsuario.validaUsuarioSenha(new Usuario(login, password)))
+            return "principal";
+		return "erro";
+
+
 	}
  
 }
