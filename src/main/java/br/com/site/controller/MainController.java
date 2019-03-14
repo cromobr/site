@@ -42,11 +42,14 @@ public class MainController {
 	@RequestMapping(value="/Acesso", method= RequestMethod.POST)
 	public String acesso(HttpServletRequest req){
 
-		String login = req.getParameter("txtLogin");
-		String password = req.getParameter("txtPassword");
+		if( req.getParameter("txtLogin") != null && req.getParameter("txtPassword") != null) {
+			String login = req.getParameter("txtLogin");
+			String password = req.getParameter("txtPassword");
 
-		if(UseCaseUsuario.validaUsuarioSenha(new Usuario(login, password)))
-            return "principal";
+			if (UseCaseUsuario.validaUsuarioSenha(new Usuario(login, password)))
+				return "principal";
+
+		}
 		return "erro";
 
 
